@@ -1,13 +1,14 @@
 package main
 
 import (
+	"github.com/SongoMen/kickchatlogger/api"
 	"github.com/SongoMen/kickchatlogger/chatlogger"
-	"go.uber.org/zap"
+	"github.com/SongoMen/kickchatlogger/utils"
 )
 
 func main() {
-	zapLogger, _ := zap.NewProduction()
-	defer zapLogger.Sync()
-	sugar := zapLogger.Sugar()
-	chatlogger.StartLogger(sugar)
+	utils.InitializeLogger()
+	utils.LoadChannelsMetadata()
+	go chatlogger.StartLogger()
+	api.StartServer()
 }
