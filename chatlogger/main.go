@@ -25,9 +25,9 @@ func createLogDirectoryIfNotExists(fullPath string) error {
 	return nil
 }
 
-func saveLog(date time.Time, channelID int, channel string, user string, message string, badges string) error {
+func saveLog(date time.Time, channelID int, user string, message string, badges string) error {
 	year, month, _ := date.Date()
-	fullPath := filepath.Join(logsPath, strconv.Itoa(channelID), strconv.Itoa(year), strconv.Itoa(int(month)))
+	fullPath := filepath.Join(logsPath, "users", user, strconv.Itoa(channelID), strconv.Itoa(year), strconv.Itoa(int(month)))
 
 	if err := createLogDirectoryIfNotExists(fullPath); err != nil {
 		return err
@@ -41,7 +41,7 @@ func saveLog(date time.Time, channelID int, channel string, user string, message
 	}
 	defer f.Close()
 
-	logLine := date.String() + "\t" + strconv.Itoa(channelID) + "\t" + channel + "\t" + user + "\t" + message + "\t" + badges + "\n"
+	logLine := date.String() + "\t" + user + "\t" + message + "\t" + badges + "\n"
 	if _, err := f.WriteString(logLine); err != nil {
 		utils.Logger.Error(err)
 		return err
@@ -73,7 +73,7 @@ func StartLogger() {
 		for _, badge := range message.Sender.Identity.Badges {
 			serializedBadges += badge.Text + ";"
 		}
-		if err := saveLog(message.CreatedAt, message.ChatroomID, utils.Channels[message.ChatroomID], message.Sender.Username, message.Content, serializedBadges); err != nil {
+		if err := saveLog(message.CreatedAt, message.ChatroomID, message.Sender.Username, message.Content, serializedBadges); err != nil {
 			utils.Logger.Error(err)
 		}
 	}
