@@ -53,7 +53,6 @@ func processFileLogs(filePath string) []UserLog {
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		splittedLine := strings.Split(scanner.Text(), "\t")
-		fmt.Println(splittedLine)
 		result = append(result, UserLog{
 			Date:    splittedLine[0],
 			Message: splittedLine[2],
@@ -116,7 +115,6 @@ func GetUserLogs(c *gin.Context) {
 
 	logsPath := constructLogsPath(params.Get("user"), channelID, "")
 	latestPeriod, userPeriods, err := getUserPeriods(logsPath)
-	fmt.Println(userPeriods)
 	if err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return
