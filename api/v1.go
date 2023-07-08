@@ -139,3 +139,11 @@ func GetUserLogs(c *gin.Context) {
 	}
 	c.JSON(200, response)
 }
+
+func GetChannels(c *gin.Context) {
+	channelNames := make([]string, 0, len(utils.Channels))
+	for _, v := range utils.Channels {
+		channelNames = append(channelNames, v)
+	}
+	c.JSON(200, channelNames)
+}

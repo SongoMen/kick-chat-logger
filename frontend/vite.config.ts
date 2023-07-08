@@ -9,16 +9,15 @@ export default defineConfig({
 	},
 	css: {
 		preprocessorOptions: {
-			sass: {
-				additionalData: `
-					@import '$styles/global'
-				`,
+			scss: {
+				additionalData: `@import '$styles/global';`,
 			}
 		},
 	},
 	resolve: {
 		alias: {
 			$: resolve(__dirname, "./src"),
+			$lib: resolve(__dirname, "./src/lib"),
 			$styles: resolve(__dirname, "./src/styles"),
 			$assets: resolve(__dirname, "./src/assets"),
 			$components: resolve(__dirname, "./src/components"),

@@ -4,6 +4,14 @@ github.com/SongoMen/kick-chat-wrapper v0.0.2-0.20230702135549-65c9f8bfada5 h1:Lp
 github.com/SongoMen/kick-chat-wrapper v0.0.2-0.20230702135549-65c9f8bfada5/go.mod h1:L8OKRnPPVyT399gKvUWN25eizszjTXetpLEL0eCdnz0=
 github.com/SongoMen/kick-chat-wrapper v0.0.2-0.20230702144942-8d4b2a0f12d8 h1:aCfdh95uzuKRzrk+t3+a1LK2CA2VCGDcM64T9C/SCFc=
 github.com/SongoMen/kick-chat-wrapper v0.0.2-0.20230702144942-8d4b2a0f12d8/go.mod h1:L8OKRnPPVyT399gKvUWN25eizszjTXetpLEL0eCdnz0=
+github.com/SongoMen/kick-chat-wrapper v0.0.3-0.20230708130137-c8f342e5b40c h1:+tLrGE5/c16L4ZOCb01P9kjJVy4WtN5DxNAtfhBOIyc=
+github.com/SongoMen/kick-chat-wrapper v0.0.3-0.20230708130137-c8f342e5b40c/go.mod h1:L8OKRnPPVyT399gKvUWN25eizszjTXetpLEL0eCdnz0=
+github.com/SongoMen/kick-chat-wrapper v0.0.3-0.20230708130638-d0430ae83eb1 h1:FwRyuqunl1RuY7U3BZkdHqINPXzErnQy/CPZoLQAACg=
+github.com/SongoMen/kick-chat-wrapper v0.0.3-0.20230708130638-d0430ae83eb1/go.mod h1:L8OKRnPPVyT399gKvUWN25eizszjTXetpLEL0eCdnz0=
+github.com/SongoMen/kick-chat-wrapper v0.0.3-0.20230708131705-c819cf96c79d h1:mgOS+e+VsYi2jxYeK9wCzQN4CHqRkhIaWxF5Sv/x5A4=
+github.com/SongoMen/kick-chat-wrapper v0.0.3-0.20230708131705-c819cf96c79d/go.mod h1:L8OKRnPPVyT399gKvUWN25eizszjTXetpLEL0eCdnz0=
+github.com/SongoMen/kick-chat-wrapper v0.0.3-0.20230708152025-cc8705fa959c h1:KpnCPpxc5aeIpGLOPVvwdFeA8E6a0ipmbNky/r4hhYc=
+github.com/SongoMen/kick-chat-wrapper v0.0.3-0.20230708152025-cc8705fa959c/go.mod h1:L8OKRnPPVyT399gKvUWN25eizszjTXetpLEL0eCdnz0=
 github.com/bytedance/sonic v1.5.0/go.mod h1:ED5hyg4y6t3/9Ku1R6dU/4KyJ48DZ4jPhfY1O2AihPM=
 github.com/bytedance/sonic v1.9.2 h1:GDaNjuWSGu09guE9Oql0MSTNhNCLlWwO8y/xM5BzcbM=
 github.com/bytedance/sonic v1.9.2/go.mod h1:i736AoUSYt75HyZLoJW9ERYxcy6eaN6h4BZXU064P/U=
