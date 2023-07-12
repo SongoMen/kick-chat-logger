@@ -3,7 +3,7 @@ module github.com/SongoMen/kickchatlogger
 go 1.20
 
 require (
-	github.com/SongoMen/kick-chat-wrapper v0.0.3-0.20230708152025-cc8705fa959c // indirect
+	github.com/SongoMen/kick-chat-wrapper v0.0.3-0.20230711073857-fd50ab7a9a52 // indirect
 	github.com/bytedance/sonic v1.9.2 // indirect
 	github.com/chenzhuoyu/base64x v0.0.0-20221115062448-fe3a3abad311 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.2 // indirect

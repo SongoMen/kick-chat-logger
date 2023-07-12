@@ -23,6 +23,13 @@ type LogResponse struct {
 	Periods  []string  `json:"periods"`
 }
 
+func reverseSlice(s []UserLog) []UserLog {
+	for i, j := 0, len(s)-1; i < j; i, j = i+1, j-1 {
+		s[i], s[j] = s[j], s[i]
+	}
+	return s
+}
+
 func getMapKeys(m map[string]string) []string {
 	keys := make([]string, 0, len(m))
 	for k := range m {
@@ -55,11 +62,11 @@ func processFileLogs(filePath string) []UserLog {
 		splittedLine := strings.Split(scanner.Text(), "\t")
 		result = append(result, UserLog{
 			Date:    splittedLine[0],
-			Message: splittedLine[2],
-			Badges:  splittedLine[3],
+			Message: splittedLine[1],
+			Badges:  splittedLine[2],
 		})
 	}
-	return result
+	return reverseSlice(result)
 }
 
 func getUserPeriods(path string) (string, map[string]string, error) {
@@ -109,14 +116,14 @@ func GetUserLogs(c *gin.Context) {
 	utils.Logger.Info("GetUserLogs", params)
 	channelID := utils.GetChannelID(params.Get("channel"))
 	if channelID == 0 || !params.Has("user") {
-		c.JSON(400, gin.H{"error": "Channel or user not found"})
+		c.JSON(200, LogResponse{Messages: []UserLog{}, Periods: []string{}})
 		return
 	}
 
 	logsPath := constructLogsPath(params.Get("user"), channelID, "")
 	latestPeriod, userPeriods, err := getUserPeriods(logsPath)
 	if err != nil {
-		c.JSON(400, gin.H{"error": err.Error()})
+		c.JSON(200, LogResponse{Messages: []UserLog{}, Periods: []string{}})
 		return
 	}
 

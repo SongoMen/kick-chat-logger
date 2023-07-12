@@ -20,7 +20,7 @@
             {/each}
         </select>
         <input bind:value={username} type="text" placeholder="Username">
-        <button>Search</button>
+        <a class="button" href="/logs?channel={selectedChannel}&user={username}">Search</a>
     </div>
 </div>
 

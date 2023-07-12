@@ -18,6 +18,7 @@ export default defineConfig({
 		alias: {
 			$: resolve(__dirname, "./src"),
 			$lib: resolve(__dirname, "./src/lib"),
+			$types: resolve(__dirname, "./src/types"),
 			$styles: resolve(__dirname, "./src/styles"),
 			$assets: resolve(__dirname, "./src/assets"),
 			$components: resolve(__dirname, "./src/components"),

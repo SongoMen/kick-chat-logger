@@ -1,6 +1,7 @@
 package chatlogger
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
 	"strconv"
@@ -26,8 +27,9 @@ func createLogDirectoryIfNotExists(fullPath string) error {
 }
 
 func saveLog(date time.Time, channelID int, user string, message string, badges string) error {
-	year, month, _ := date.Date()
-	fullPath := filepath.Join(logsPath, "users", user, strconv.Itoa(channelID), strconv.Itoa(year), strconv.Itoa(int(month)))
+	const TimeFormat string = "%04d/%02d"
+	periodPath := fmt.Sprintf(TimeFormat, date.Year(), date.Month())
+	fullPath := filepath.Join(logsPath, "users", user, strconv.Itoa(channelID), periodPath)
 
 	if err := createLogDirectoryIfNotExists(fullPath); err != nil {
 		return err
@@ -41,7 +43,7 @@ func saveLog(date time.Time, channelID int, user string, message string, badges 
 	}
 	defer f.Close()
 
-	logLine := date.String() + "\t" + user + "\t" + message + "\t" + badges + "\n"
+	logLine := date.String() + "\t" + message + "\t" + badges + "\n"
 	if _, err := f.WriteString(logLine); err != nil {
 		utils.Logger.Error(err)
 		return err
@@ -54,6 +56,7 @@ func StartLogger() {
 	utils.Logger.Info("Logging Start for channels:", utils.Channels)
 
 	kickChatWrapper, err := kickchatwrapper.NewClient()
+	kickChatWrapper.SetDebug(true)
 	if err != nil {
 		utils.Logger.Error(err)
 		return
