@@ -40,6 +40,11 @@
       {#each messages as message}
         <li class="messages__text">
           <p>{formatDate(message.date)}</p>
+          <p>
+            {#each message.badges as badge}
+              <img src="/{badge}.svg" alt={badge} class="messages__badge">
+            {/each}
+          </p>
           <p>{username}:</p>
           <p>{@html formatMessageContent(message.message)}</p>
         </li>
@@ -59,6 +64,7 @@
       color: white;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
       margin-bottom: 20px;
+      overflow: auto;
       &.hidden {
         .messages {
             &__content {
@@ -73,6 +79,11 @@
 
       &__content {
         margin: 0;
+      }
+
+      &__badge {
+        margin-right: 5px;
+        margin-top: 4px;
       }
   
       &__label {
@@ -100,11 +111,14 @@
             margin: 0;
             margin-right: 5px;
             font-weight: 400;
+            display: flex;
+            align-items: flex-start;
   
             &:first-child {
               color: $grey-light;
               margin-right: 10px;
               width: 140px;
+              min-width: 140px;
             }
   
             &:last-child {
