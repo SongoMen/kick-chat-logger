@@ -5,6 +5,7 @@ import (
 	"os"
 	"path/filepath"
 	"strconv"
+	"strings"
 	"time"
 
 	kickchatwrapper "github.com/SongoMen/kick-chat-wrapper"
@@ -14,6 +15,21 @@ import (
 const (
 	logsPath = "logs/"
 )
+
+func cleaner(text string) string {
+	const replacement = ""
+	var replacer = strings.NewReplacer(
+		"\r\n", replacement,
+		"\r", replacement,
+		"\n", replacement,
+		"\v", replacement,
+		"\f", replacement,
+		"\u0085", replacement,
+		"\u2028", replacement,
+		"\u2029", replacement,
+	)
+	return replacer.Replace(text)
+}
 
 func createLogDirectoryIfNotExists(fullPath string) error {
 	if _, err := os.Stat(fullPath); os.IsNotExist(err) {
@@ -43,7 +59,7 @@ func saveLog(date time.Time, channelID int, user string, message string, badges 
 	}
 	defer f.Close()
 
-	logLine := date.String() + "\t" + message + "\t" + badges + "\n"
+	logLine := date.String() + "\t" + cleaner(message) + "\t" + badges + "\n"
 	if _, err := f.WriteString(logLine); err != nil {
 		utils.Logger.Error(err)
 		return err
