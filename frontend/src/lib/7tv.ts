@@ -11,14 +11,11 @@ const getChannelEmotes = async (channel: string) => {
 };
 
 const retrieveEmotes = async (emotesArray: SvtEmote[]) => {
-    const emotes = [];
+    const emotes: Record<string, string> = {};
     for (let i = 0; i < emotesArray.length; i++) {
         const webpEmotes = emotesArray[i].data.host.files.filter(i => i.format === 'WEBP');
         const emoteURL = emotesArray[i].data.host.url;
-        emotes.push({
-            name: emotesArray[i].name,
-            url: emoteURL + "/" + webpEmotes[0].name,
-        });
+        emotes[emotesArray[i].name] = emoteURL + "/" + webpEmotes[0].name
     }
     return emotes;
 };

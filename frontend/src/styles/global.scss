@@ -1,19 +1,49 @@
 @import "variables";
+@import url('https://fonts.googleapis.com/css2?family=Mukta:wght@300;400;600&display=swap');
+
+*::-webkit-input-placeholder {
+    color: $grey;
+}
+*:-moz-placeholder {
+    color: $grey;
+    opacity: 1;
+}
+*::-moz-placeholder {
+    color: $grey;
+    opacity: 1;
+}
+*:-ms-input-placeholder {
+    color: $grey;
+}
+*::-ms-input-placeholder {
+    color: $grey;
+}
+*::placeholder {
+    color: $grey;
+}
 
 :global(*) {
     box-sizing: border-box;
+    color: $font-color;
+    font-family: 'Mukta';
 }
 
 :global(html), :global(body) {
-    background-color: $bg-color;
+    background-color: $bg-primary;
 }
 
 :global(body) {
-    padding: 10px;
+    padding: 20px;
 }
 
-input, select, .button {
-    padding: 10px;
+:global(input), :global(select), :global(.button) {
+    padding: 15px;
     border-radius: 5px;
     border: 0;
+    background-color: $bg-secondary;
+    text-decoration: none;
+    font-size: 1.2em;
+    &:focus {
+        outline: none;
+    }
 }

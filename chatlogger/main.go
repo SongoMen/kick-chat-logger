@@ -73,8 +73,12 @@ func StartLogger() {
 			continue
 		}
 		serializedBadges := ""
-		for _, badge := range message.Sender.Identity.Badges {
-			serializedBadges += badge.Text + ";"
+		badgesLength := len(message.Sender.Identity.Badges)
+		for index, badge := range message.Sender.Identity.Badges {
+			serializedBadges += badge.Text
+			if index != badgesLength-1 {
+				serializedBadges += ";"
+			}
 		}
 		if err := saveLog(message.CreatedAt, message.ChatroomID, message.Sender.Username, message.Content, serializedBadges); err != nil {
 			utils.Logger.Error(err)

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"sort"
 	"strings"
 	"time"
 
@@ -13,9 +14,9 @@ import (
 )
 
 type UserLog struct {
-	Date    string `json:"date"`
-	Message string `json:"message"`
-	Badges  string `json:"badges"`
+	Date    string   `json:"date"`
+	Message string   `json:"message"`
+	Badges  []string `json:"badges"`
 }
 
 type LogResponse struct {
@@ -35,6 +36,11 @@ func getMapKeys(m map[string]string) []string {
 	for k := range m {
 		keys = append(keys, k)
 	}
+	sort.Slice(keys, func(i, j int) bool {
+		a, _ := time.Parse("2006-1", keys[i])
+		b, _ := time.Parse("2006-1", keys[j])
+		return b.Before(a)
+	})
 	return keys
 }
 
@@ -63,7 +69,7 @@ func processFileLogs(filePath string) []UserLog {
 		result = append(result, UserLog{
 			Date:    splittedLine[0],
 			Message: splittedLine[1],
-			Badges:  splittedLine[2],
+			Badges:  strings.Split(splittedLine[2], ";"),
 		})
 	}
 	return reverseSlice(result)
@@ -152,5 +158,6 @@ func GetChannels(c *gin.Context) {
 	for _, v := range utils.Channels {
 		channelNames = append(channelNames, v)
 	}
+	sort.Strings(channelNames)
 	c.JSON(200, channelNames)
 }
