@@ -169,7 +169,9 @@ func GetUserLogs(c *gin.Context) {
 }
 
 func GetChannels(c *gin.Context) {
-	c.JSON(200, getMapKeys(utils.UserIdMapper))
+	channels := getMapKeys(utils.UserIdMapper)
+	sort.Strings(channels)
+	c.JSON(200, channels)
 }
 
 func GetChannelMetadata(c *gin.Context) {
