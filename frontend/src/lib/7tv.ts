@@ -1,16 +1,32 @@
-import type { SvtEmote } from "$types/7tv";
+import type { SvtEmote, SvtUserInfo, SvtConnection } from "$types/7tv";
 
-const getGlobalEmotes = async () => {
+const getGlobalEmotes = async (): Promise<Record<string, string>> => {
     const req = await fetch("https://7tv.io/v3/emote-sets/global");
     const data = await req.json();
     return retrieveEmotes(data.emotes);
 };
 
-const getChannelEmotes = async (channel: string) => {
-
+const getChannelEmotes = async (channel: string): Promise<Record<string, string>> => {
+    if (!channel) {
+        return {};
+    }
+    const req = await fetch(`https://7tv.io/v3/users/${channel}`);
+    const data: SvtUserInfo = await req.json();
+    const connections: Record<string, SvtConnection> = {}
+    for (const conenction of data.connections) {
+        connections[conenction.platform] = conenction
+    }
+    const rightConnection = connections['KICK'] || connections['TWITCH'] || null;
+    if (!rightConnection) {
+        return {};
+    }
+    const emoteSetReq = await fetch(`https://7tv.io/v3/emote-sets/${rightConnection.emote_set.id}`);
+    const emoteSetData = await emoteSetReq.json();
+    console.log('channel', retrieveEmotes(emoteSetData.emotes), rightConnection.emote_set.id)
+    return retrieveEmotes(emoteSetData.emotes);
 };
 
-const retrieveEmotes = async (emotesArray: SvtEmote[]) => {
+const retrieveEmotes = (emotesArray: SvtEmote[]): Record<string, string> => {
     const emotes: Record<string, string> = {};
     for (let i = 0; i < emotesArray.length; i++) {
         const webpEmotes = emotesArray[i].data.host.files.filter(i => i.format === 'WEBP');
@@ -20,7 +36,5 @@ const retrieveEmotes = async (emotesArray: SvtEmote[]) => {
     return emotes;
 };
 
-export {
-    getGlobalEmotes,
-    getChannelEmotes
-}
+export const getGlobalSvtEmotes = getGlobalEmotes;
+export const getChannelSvtEmotes = getChannelEmotes;

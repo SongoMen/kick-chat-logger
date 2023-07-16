@@ -11,7 +11,7 @@ func InitRouter() *gin.Engine {
 	v1api := router.Group("/api/v1")
 	v1api.GET("/logs", GetUserLogs)
 	v1api.GET("/channels", GetChannels)
-	v1api.GET("/channel-info", getChannelMetadata)
+	v1api.GET("/channel-info", GetChannelMetadata)
 
 	return router
 }

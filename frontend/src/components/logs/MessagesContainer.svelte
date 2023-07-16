@@ -94,10 +94,11 @@
         cursor: pointer;
         border-bottom: 1px solid $grey;
       }
-      &__emote {
+      :global(.messages__emote) {
         height: 20px;
         width: 20px;
-        margin-right: 5px;
+        margin-left: 5px;
+        margin-top: 5px;
       }
   
       ul {

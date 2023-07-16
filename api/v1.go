@@ -172,7 +172,7 @@ func GetChannels(c *gin.Context) {
 	c.JSON(200, getMapKeys(utils.UserIdMapper))
 }
 
-func getChannelMetadata(c *gin.Context) {
+func GetChannelMetadata(c *gin.Context) {
 	params := c.Request.URL.Query()
 	channelID := utils.GetChannelID(params.Get("channel"))
 	if channelID == 0 {

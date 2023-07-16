@@ -1,25 +1,33 @@
 <script lang="ts">
     import { onMount } from "svelte";
-	import { makeAPIRequest } from '$/lib/Requests';
-    import { getGlobalEmotes } from '$/lib/7tv';
     import { page } from '$app/stores';
-    import type { APIUserLog, APILogsResponse } from "$types/logs"
+
+    import type { APIUserLog, APILogsResponse, APIChannelInfo } from "$types/logs"
+
+	import { makeAPIRequest } from '$/lib/Requests';
+    import { getAllEmotes } from '$/lib/emotes';
     import MessagesContainer from "$components/logs/MessagesContainer.svelte"
     import LogsQuery from "$components/logs/LogsQuery.svelte"
 
     let loadedData: Record<string, string> = {'channel': $page.url.searchParams.get('channel') || '', 'user': $page.url.searchParams.get('user') || ''};
     let loaded = false;
+    let channelInfo: APIChannelInfo;
     let emotes: Record<string, string> = {};
     let periods: string[] = [];
     let logsByPeriod: { [key: string]: APIUserLog[] } = {};
 
-    const retrieveMessages = async (user: string, channel: string, period: string) => {
-        console.log(loadedData, loaded, 'u', user, 'c', channel, 'p', period);
+    const loadChannelData = async (channel: string) => {
+        channelInfo = await makeAPIRequest(`/channel-info?channel=${channel}`);
+        emotes = await getAllEmotes(channelInfo['stvID'] || "");
+    }
 
+    const retrieveMessages = async (user: string, channel: string, period: string) => {
         if (loaded && (loadedData['channel'] !== channel || loadedData['user'] !== user)) {
             logsByPeriod = {};
         } else if (logsByPeriod[period] && logsByPeriod[period].length && period !== periods[0]) {
             return;
+        } else if (!loaded || channel !== loadedData['channel']) {
+            await loadChannelData(channel);
         }
         loaded = false;
         let url = `/logs?channel=${channel}&user=${user}`;
@@ -37,12 +45,10 @@
         }
         loadedData = { 'channel': channel, 'user': user };
         loaded = true;
-        console.log(logsByPeriod)
     }
 
     onMount(async () => {
-        emotes = await getGlobalEmotes()
-        await retrieveMessages(loadedData['user'], loadedData['channel'], "");
+        if (loadedData['channel'] && loadedData['user']) retrieveMessages(loadedData['user'], loadedData['channel'], "");
     });
 </script>
 

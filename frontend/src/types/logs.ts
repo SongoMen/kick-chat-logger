@@ -10,5 +10,11 @@ interface UserLog {
     badges : string;
 }
 
+interface ChannelInfo {
+    username : string;
+    stvID : string;
+}
+
 export type APIUserLog = UserLog;
 export type APILogsResponse = Response;
+export type APIChannelInfo = ChannelInfo;

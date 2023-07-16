@@ -1,4 +1,16 @@
 
+interface UserInfo {
+    connections: Connection[];
+    name: string;
+    emotes: Emote[];
+}
+
+interface Connection {
+    id: string;
+    platform: string;
+    emote_set: EmoteSet;
+}
+
 interface EmoteSet {
     id: string;
     name: string;
@@ -33,3 +45,5 @@ interface EmoteFile {
 
 export type SvtEmoteSet = EmoteSet
 export type SvtEmote = Emote
+export type SvtUserInfo = UserInfo
+export type SvtConnection = Connection
