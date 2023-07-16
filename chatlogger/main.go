@@ -69,7 +69,7 @@ func saveLog(date time.Time, channelID int, user string, message string, badges 
 }
 
 func StartLogger() {
-	utils.Logger.Info("Logging Start for channels:", utils.Channels)
+	utils.Logger.Info("Logging Start for channels:", utils.ChannelsMetadata)
 
 	kickChatWrapper, err := kickchatwrapper.NewClient()
 	kickChatWrapper.SetDebug(true)
@@ -78,7 +78,7 @@ func StartLogger() {
 		return
 	}
 
-	for id := range utils.Channels {
+	for id := range utils.ChannelsMetadata {
 		kickChatWrapper.JoinChannelByID(id)
 	}
 

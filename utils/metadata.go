@@ -10,17 +10,16 @@ const (
 	channelsDataPath = "channels.json"
 )
 
-var Channels map[int]string
+type channelMetadata struct {
+	Username string `json:"username"`
+	StvID    string `json:"stvID"`
+}
+
+var ChannelsMetadata map[int]channelMetadata
+var UserIdMapper map[string]int
 
 func GetChannelID(channelName string) int {
-	channelID := 0
-	for id, channel := range Channels {
-		if channel == channelName {
-			channelID = id
-			break
-		}
-	}
-	return channelID
+	return UserIdMapper[channelName]
 }
 
 func LoadChannelsMetadata() {
@@ -32,5 +31,9 @@ func LoadChannelsMetadata() {
 	defer jsonFile.Close()
 
 	byteValue, _ := ioutil.ReadAll(jsonFile)
-	json.Unmarshal([]byte(byteValue), &Channels)
+	json.Unmarshal([]byte(byteValue), &ChannelsMetadata)
+	UserIdMapper = make(map[string]int)
+	for id, _ := range ChannelsMetadata {
+		UserIdMapper[ChannelsMetadata[id].Username] = id
+	}
 }

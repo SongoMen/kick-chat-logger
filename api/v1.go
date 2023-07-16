@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"reflect"
 	"sort"
 	"strings"
 	"time"
@@ -31,17 +32,26 @@ func reverseSlice(s []UserLog) []UserLog {
 	return s
 }
 
-func getMapKeys(m map[string]string) []string {
-	keys := make([]string, 0, len(m))
-	for k := range m {
-		keys = append(keys, k)
+func getMapKeys(m interface{}) []string {
+	switch m := m.(type) {
+	case map[string]string, map[string]int:
+		v := reflect.ValueOf(m)
+		keys := make([]string, 0, v.Len())
+		for _, k := range v.MapKeys() {
+			keys = append(keys, k.String())
+		}
+		return keys
+	default:
+		return nil
 	}
-	sort.Slice(keys, func(i, j int) bool {
-		a, _ := time.Parse("2006-1", keys[i])
-		b, _ := time.Parse("2006-1", keys[j])
+}
+
+func sortPeriods(periods []string) {
+	sort.Slice(periods, func(i, j int) bool {
+		a, _ := time.Parse("2006-1", periods[i])
+		b, _ := time.Parse("2006-1", periods[j])
 		return b.Before(a)
 	})
-	return keys
 }
 
 func constructLogsPath(user string, channel int, period string) string {
@@ -135,9 +145,11 @@ func GetUserLogs(c *gin.Context) {
 
 	if params.Has("period") {
 		if logPath, ok := userPeriods[params.Get("period")]; ok {
+			periods := getMapKeys(userPeriods)
+			sortPeriods(periods)
 			response := LogResponse{
 				Messages: processFileLogs(logPath),
-				Periods:  getMapKeys(userPeriods),
+				Periods:  periods,
 			}
 			c.JSON(200, response)
 			return
@@ -146,18 +158,26 @@ func GetUserLogs(c *gin.Context) {
 		return
 	}
 
+	periods := getMapKeys(userPeriods)
+	sortPeriods(periods)
+
 	response := LogResponse{
 		Messages: processFileLogs(userPeriods[latestPeriod]),
-		Periods:  getMapKeys(userPeriods),
+		Periods:  periods,
 	}
 	c.JSON(200, response)
 }
 
 func GetChannels(c *gin.Context) {
-	channelNames := make([]string, 0, len(utils.Channels))
-	for _, v := range utils.Channels {
-		channelNames = append(channelNames, v)
+	c.JSON(200, getMapKeys(utils.UserIdMapper))
+}
+
+func getChannelMetadata(c *gin.Context) {
+	params := c.Request.URL.Query()
+	channelID := utils.GetChannelID(params.Get("channel"))
+	if channelID == 0 {
+		c.JSON(400, gin.H{"error": "Channel not found"})
+		return
 	}
-	sort.Strings(channelNames)
-	c.JSON(200, channelNames)
+	c.JSON(200, utils.ChannelsMetadata[channelID])
 }

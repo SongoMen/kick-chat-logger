@@ -14,9 +14,9 @@
     }
 
     onMount(async () => {
-        channels = await makeAPIRequest("/channels");
-        if (defaultChannel && channels.includes(defaultChannel)) selectedChannel = defaultChannel;
-        else selectedChannel = channels[0] || "";
+        channels = await makeAPIRequest("/channels") || [];
+        if (defaultChannel && (channels || []).includes(defaultChannel)) selectedChannel = defaultChannel;
+        else selectedChannel = (channels || [])[0] || "";
         loaded = true;
     });
 </script>
