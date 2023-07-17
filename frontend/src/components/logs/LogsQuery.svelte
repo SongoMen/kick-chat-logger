@@ -9,8 +9,10 @@
     let loaded: boolean = false;
 
     const handleSearch = () => {
-        window.history.pushState({}, '', `/logs?channel=${selectedChannel}&user=${username}`);
-        if (searchHandler) searchHandler(username, selectedChannel, "");
+        if (searchHandler) {
+            window.history.pushState({}, '', `/logs?channel=${selectedChannel}&user=${username}`);
+            searchHandler(username, selectedChannel, "");
+        } else window.location.href = `/logs?channel=${selectedChannel}&user=${username}`
     }
 
     onMount(async () => {
