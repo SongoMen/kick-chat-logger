@@ -136,7 +136,8 @@ func GetUserLogs(c *gin.Context) {
 		return
 	}
 
-	logsPath := constructLogsPath(params.Get("user"), channelID, "")
+	user := strings.ToLower(params.Get("user"))
+	logsPath := constructLogsPath(user, channelID, "")
 	latestPeriod, userPeriods, err := getUserPeriods(logsPath)
 	if err != nil {
 		c.JSON(200, LogResponse{Messages: []UserLog{}, Periods: []string{}})
