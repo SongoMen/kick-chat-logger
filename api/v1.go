@@ -18,6 +18,7 @@ type UserLog struct {
 	Date    string   `json:"date"`
 	Message string   `json:"message"`
 	Badges  []string `json:"badges"`
+	Color   string   `json:"color"`
 }
 
 type LogResponse struct {
@@ -80,6 +81,7 @@ func processFileLogs(filePath string) []UserLog {
 			Date:    splittedLine[0],
 			Message: splittedLine[1],
 			Badges:  strings.Split(splittedLine[2], ";"),
+			Color:   splittedLine[3],
 		})
 	}
 	return reverseSlice(result)
