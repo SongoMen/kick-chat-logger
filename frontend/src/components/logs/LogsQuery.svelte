@@ -1,7 +1,8 @@
 <script lang="ts">
     import { onMount } from "svelte";
     import { makeAPIRequest } from "$lib/Requests"
-    export let defaultChannel: string | null = "", defaultUser: string | null = "", searchHandler: (user: string, channel: string, period: string) => void = () => {};
+    import Loader from "$components/global/Loader.svelte"
+    export let defaultChannel: string | null = "", defaultUser: string | null = "", searchHandler: ((user: string, channel: string, period: string) => void) | null = null;
 
     let channels: string[] = [];
     let selectedChannel: string = "";
@@ -25,7 +26,7 @@
 
 <div class="query">
     {#if !loaded}
-        <div>Loading...</div>
+        <Loader/>
     {:else}
         <form on:submit|preventDefault={handleSearch}>
             <select bind:value={selectedChannel}>

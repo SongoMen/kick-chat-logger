@@ -22,7 +22,6 @@ const getChannelEmotes = async (channel: string): Promise<Record<string, string>
     }
     const emoteSetReq = await fetch(`https://7tv.io/v3/emote-sets/${rightConnection.emote_set.id}`);
     const emoteSetData = await emoteSetReq.json();
-    console.log('channel', retrieveEmotes(emoteSetData.emotes), rightConnection.emote_set.id)
     return retrieveEmotes(emoteSetData.emotes);
 };
 

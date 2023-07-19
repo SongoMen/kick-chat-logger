@@ -1,6 +1,7 @@
 <script lang="ts">
     import { onMount } from "svelte";
     import { page } from '$app/stores';
+    import Loader from "$components/global/Loader.svelte"
 
     import type { APIUserLog, APILogsResponse, APIChannelInfo } from "$types/logs"
 
@@ -33,7 +34,6 @@
         let url = `/logs?channel=${channel}&user=${user}`;
         if (period !== "") url += `&period=${period}`;
         const data: APILogsResponse = await makeAPIRequest(url);
-        console.log(data)
         if (!data.error && data['messages'].length) {
             for (const period of data['periods']) {
                 if (!logsByPeriod[period]) logsByPeriod[period] = [];
@@ -49,6 +49,7 @@
 
     onMount(async () => {
         if (loadedData['channel'] && loadedData['user']) retrieveMessages(loadedData['user'], loadedData['channel'], "");
+        else loaded = true;
     });
 </script>
 
@@ -59,8 +60,10 @@
             {#each periods as period}
                 <MessagesContainer channel={loadedData['channel']} getMessages={retrieveMessages} emotes={emotes} username={loadedData['user']} label={period} messages={logsByPeriod[period]} on:click={() => retrieveMessages(period)}/>
             {/each}
-        {:else if loaded}
+        {:else if loaded && loadedData['user']}
             <h2>No messages found.</h2>
+        {:else if !loaded}
+            <Loader/>
         {/if}
     </div>
 </div>
