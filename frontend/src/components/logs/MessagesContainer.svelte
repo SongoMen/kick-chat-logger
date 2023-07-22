@@ -96,7 +96,6 @@
       }
       :global(.messages__emote) {
         height: 20px;
-        width: 20px;
         margin-left: 5px;
         margin-top: 5px;
       }
