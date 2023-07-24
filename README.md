@@ -5,7 +5,8 @@ to efficiently store each message with relevant information.
 # How it works
 Upon execution, the application automatically joins all the Kick channels listed in the channels.json file. Additionally, it starts a small API built with Gin, 
 which enables easy access to the logged messages. When a message is sent in a chat room, it is saved to the appropriate location in the following format: 
-`/logs/users/{username}/{channelid}/logs.txt`. Each line in the log file contains the date, message, badges, and username color, all separated by the tab (\t) 
+`/logs/users/{username}/{chatRoomID}/{year}/{month}/logs.txt`. Year and month are taken from the date when the message was sent. Each line in the log file contains 
+the date, message, badges, and username color, all separated by the tab (\t) 
 character, making it easy to parse and use through the API.
 
 # Configuration
