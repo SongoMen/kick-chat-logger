@@ -20,15 +20,16 @@
     const loadChannelData = async (channel: string) => {
         channelInfo = await makeAPIRequest(`/channel-info?channel=${channel}`);
         emotes = await getAllEmotes(channelInfo['stvID'] || "");
-        logsByPeriod = {};
     }
 
     const retrieveMessages = async (user: string, channel: string, period: string) => {
         if (loaded && (loadedData['channel'] !== channel || loadedData['user'] !== user)) {
             logsByPeriod = {};
+            periods = [];
         } else if (logsByPeriod[period] && logsByPeriod[period].length && period !== periods[0]) {
             return;
-        } else if (!loaded || channel !== loadedData['channel']) {
+        }
+        if (!loaded || channel !== loadedData['channel']) {
             await loadChannelData(channel);
         }
         loaded = false;
