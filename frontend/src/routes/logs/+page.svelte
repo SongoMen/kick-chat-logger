@@ -20,6 +20,7 @@
     const loadChannelData = async (channel: string) => {
         channelInfo = await makeAPIRequest(`/channel-info?channel=${channel}`);
         emotes = await getAllEmotes(channelInfo['stvID'] || "");
+        logsByPeriod = {};
     }
 
     const retrieveMessages = async (user: string, channel: string, period: string) => {
