@@ -18,6 +18,7 @@
     let logsByPeriod: { [key: string]: APIUserLog[] } = {};
 
     const loadChannelData = async (channel: string) => {
+        loaded = false;
         channelInfo = await makeAPIRequest(`/channel-info?channel=${channel}`);
         emotes = await getAllEmotes(channelInfo['stvID'] || "");
     }
