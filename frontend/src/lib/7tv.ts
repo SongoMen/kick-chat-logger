@@ -27,7 +27,7 @@ const getChannelEmotes = async (channel: string): Promise<Record<string, string>
 
 const retrieveEmotes = (emotesArray: SvtEmote[]): Record<string, string> => {
     const emotes: Record<string, string> = {};
-    for (let i = 0; i < emotesArray.length; i++) {
+    for (let i = 0; i < (emotesArray || []).length; i++) {
         const webpEmotes = emotesArray[i].data.host.files.filter(i => i.format === 'WEBP');
         const emoteURL = emotesArray[i].data.host.url;
         emotes[emotesArray[i].name] = emoteURL + "/" + webpEmotes[0].name
