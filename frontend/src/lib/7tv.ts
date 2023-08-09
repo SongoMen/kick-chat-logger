@@ -13,7 +13,7 @@ const getChannelEmotes = async (channel: string): Promise<Record<string, string>
     const req = await fetch(`https://7tv.io/v3/users/${channel}`);
     const data: SvtUserInfo = await req.json();
     const connections: Record<string, SvtConnection> = {}
-    for (const conenction of data.connections) {
+    for (const conenction of (data.connections || [])) {
         connections[conenction.platform] = conenction
     }
     const rightConnection = connections['KICK'] || connections['TWITCH'] || null;
