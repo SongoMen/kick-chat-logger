@@ -33,6 +33,16 @@ func reverseSlice(s []UserLog) []UserLog {
 	return s
 }
 
+func deleteEmptyValues(s []string) []string {
+	var r = []string{}
+	for _, str := range s {
+		if str != "" {
+			r = append(r, str)
+		}
+	}
+	return r
+}
+
 func getMapKeys(m interface{}) []string {
 	switch m := m.(type) {
 	case map[string]string, map[string]int:
@@ -80,7 +90,7 @@ func processFileLogs(filePath string) []UserLog {
 		result = append(result, UserLog{
 			Date:    splittedLine[0],
 			Message: splittedLine[1],
-			Badges:  strings.Split(splittedLine[2], ";"),
+			Badges:  deleteEmptyValues(strings.Split(splittedLine[2], ";")),
 			Color:   splittedLine[3],
 		})
 	}
