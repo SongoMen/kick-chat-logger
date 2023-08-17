@@ -40,11 +40,13 @@
       {#each messages as message}
         <li class="messages__text">
           <p>{formatDate(message.date)}</p>
-          <p>
-            {#each message.badges as badge}
-              <img src="/{badge}.svg" alt={badge} class="messages__badge">
-            {/each}
-          </p>
+          {#if (message.badges || []).length}
+            <p>
+              {#each message.badges as badge}
+                <img src="/{badge}.svg" alt={badge} class="messages__badge">
+              {/each}
+            </p>
+          {/if}
           <p>{username}:</p>
           <p>{@html formatMessageContent(message.message)}</p>
         </li>
@@ -116,7 +118,7 @@
   
             &:first-child {
               color: $grey-light;
-              margin-right: 10px;
+              margin-right: 8px;
               width: 140px;
               min-width: 140px;
             }
